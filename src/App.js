@@ -3,7 +3,6 @@ import * as BooksAPI from './BooksAPI'
 import './App.css'
 
 class Book extends React.Component{
-  
   render() {
     
     const cover_str = 'url(' + this.props.cover + ')'
@@ -29,6 +28,7 @@ class Book extends React.Component{
   }
 }
 
+
 class Bookshelf extends React.Component{ 
   render() {
     return (
@@ -49,6 +49,7 @@ class Bookshelf extends React.Component{
     )
   }
 }
+
 
 class BooksApp extends React.Component {
   state = {
