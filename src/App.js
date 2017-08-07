@@ -5,7 +5,7 @@ import './App.css'
 class Book extends React.Component{
   render() {
     
-    const cover_str = 'url(' + this.props.cover + ')'
+    const cover_str = 'url(' + this.props.data.imageLinks.thumbnail + ')'
 
     return (
       <div className="book">
@@ -21,8 +21,8 @@ class Book extends React.Component{
             </select>
           </div>
         </div>
-        <div className="book-title">{this.props.title}</div>
-        <div className="book-authors">{this.props.authors}</div>
+        <div className="book-title">{this.props.data.title}</div>
+        <div className="book-authors">{this.props.data.authors}</div>
       </div>
     )
   }
@@ -38,9 +38,7 @@ class Bookshelf extends React.Component{
           <ol className="books-grid">
             {this.props.books.map((book) => (
               <li key={book.id}>
-                <Book cover={book.imageLinks.thumbnail}
-                  title={book.title}
-                  authors={book.authors} />
+                <Book data={book} />
               </li>
             ))}
           </ol>
@@ -88,9 +86,7 @@ class BooksApp extends React.Component {
               <ol className="books-grid">
                 {this.state.books.map(book => (
                   <li key={book.id}>
-                    <Book cover={book.imageLinks.thumbnail}
-                      title={book.title}
-                      authors={book.authors} />
+                    <Book data={book} />
                   </li>
                   ))}
               </ol>
