@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import * as BooksAPI from './BooksAPI'
 import './App.css'
 
+// TODO: assign shelf in option with shelf datas
 class Book extends React.Component{
   render() {
     return (
@@ -81,14 +82,15 @@ class BooksApp extends React.Component {
 
   handle_move_book_to = (e, selected_book) => {
     const new_shelf = e.target.value
-    const books = this.state.books.map((book) => {
-      if (book.id === selected_book.id){
-        book.shelf = new_shelf
-      }
-      return book
-    })
-
-    this.setState({books})
+    
+    this.setState((state)=> ({
+      books: state.books.map((book) => {
+        if(book.id === selected_book.id) {
+          book.shelf = new_shelf
+        }
+        return book
+      })
+    }))
 
   }
 
