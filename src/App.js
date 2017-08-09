@@ -92,6 +92,7 @@ class BooksApp extends React.Component {
       })
     }))
 
+    BooksAPI.update(selected_book, new_shelf)
   }
 
   render() {
