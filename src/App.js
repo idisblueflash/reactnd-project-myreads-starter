@@ -15,7 +15,7 @@ class Book extends React.Component{
               backgroundImage: 'url(' + this.props.data.imageLinks.thumbnail + ')' 
             }}></div>
           <div className="book-shelf-changer">
-            <select onChange={() => this.props.onMoveBookTo(this.props.data, this)}>
+            <select onChange={(e) => this.props.onMoveBookTo(e, this.props.data)}>
               <option value="none" disabled>Move to...</option>
               <option value="currentlyReading">Currently Reading</option>
               <option value="wantToRead">Want to Read</option>
@@ -79,10 +79,17 @@ class BooksApp extends React.Component {
     })
   }
 
-// TODO: move book to shelf
-  handle_move_book_to = (selected_book, bookself) => {
-    console.log(selected_book)
-    console.log(bookself)
+  handle_move_book_to = (e, selected_book) => {
+    const new_shelf = e.target.value
+    const books = this.state.books.map((book) => {
+      if (book.id === selected_book.id){
+        book.shelf = new_shelf
+      }
+      return book
+    })
+
+    this.setState({books})
+
   }
 
   render() {
