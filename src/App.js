@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import * as BooksAPI from './BooksAPI'
 import './App.css'
 
@@ -12,7 +13,7 @@ class Book extends React.Component{
         <div className="book-top">
           <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: cover_str }}></div>
           <div className="book-shelf-changer">
-            <select>
+            <select onChange={() => this.props.onMoveBookTo(this.props.data, this)}>
               <option value="none" disabled>Move to...</option>
               <option value="currentlyReading">Currently Reading</option>
               <option value="wantToRead">Want to Read</option>
@@ -28,17 +29,22 @@ class Book extends React.Component{
   }
 }
 
+Book.propTypes = {
+  onMoveBookTo: PropTypes.func.isRequired
+}
 
 class Bookshelf extends React.Component{ 
   render() {
+    const books = this.props.books.filter(book => book.shelf === this.props.shelf)
+
     return (
       <div className="bookshelf">
         <h2 className="bookshelf-title">{this.props.title}</h2>
         <div className="bookshelf-books">
           <ol className="books-grid">
-            {this.props.books.map((book) => (
+            {books.map((book) => (
               <li key={book.id}>
-                <Book data={book} />
+                <Book data={book} onMoveBookTo={this.props.onMoveBookTo}/>
               </li>
             ))}
           </ol>
@@ -48,6 +54,10 @@ class Bookshelf extends React.Component{
   }
 }
 
+Bookshelf.propTypes = {
+  onMoveBookTo: PropTypes.func.isRequired,
+  shelf: PropTypes.string.isRequired
+}
 
 class BooksApp extends React.Component {
   state = {
@@ -59,16 +69,18 @@ class BooksApp extends React.Component {
      */
     showSearchPage: false,
     books:[],
-    current_reading_books:[],
-    want_to_read_books:[],
-    read_books:[],
   }
 
   componentDidMount() {
     BooksAPI.getAll().then((books) => {
       this.setState({ books})
-      this.setState({ current_reading_books: books.filter(book => book.pageCount > 400)})
     })
+  }
+
+// TODO: move book to shelf
+  handle_move_book_to = (selected_book, bookself) => {
+    console.log(selected_book)
+    console.log(bookself)
   }
 
   render() {
@@ -86,7 +98,7 @@ class BooksApp extends React.Component {
               <ol className="books-grid">
                 {this.state.books.map(book => (
                   <li key={book.id}>
-                    <Book data={book} />
+                    <Book data={book} onMoveBookTo={this.handle_move_book_to}/>
                   </li>
                   ))}
               </ol>
@@ -100,11 +112,17 @@ class BooksApp extends React.Component {
             <div className="list-books-content">
               <div>
                 <Bookshelf title="Currently Reading" 
-                  books={this.state.current_reading_books} />
+                  shelf='currentlyReading' 
+                  books={this.state.books}
+                  onMoveBookTo={this.handle_move_book_to} />
                 <Bookshelf title="Want to Read"
-                  books={this.state.want_to_read_books} />
+                  shelf='wantToRead'
+                  books={this.state.books}
+                  onMoveBookTo={this.handle_move_book_to} />
                 <Bookshelf title="Read"
-                  books={this.state.read_books} />
+                  shelf='read'
+                  books={this.state.books}
+                  onMoveBookTo={this.handle_move_book_to} />
               </div>
             </div>
             <div className="open-search">
