@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 
-// TODO: assign shelf in option with shelf datas
 class Book extends React.Component{
     render() {
         return (
@@ -15,7 +14,7 @@ class Book extends React.Component{
                             backgroundImage: 'url(' + this.props.data.imageLinks.thumbnail + ')' 
                         }}></div>
                     <div className="book-shelf-changer">
-                        <select onChange={(e) => this.props.onMoveBookTo(e, this.props.data)}>
+                        <select value={this.props.data.shelf} onChange={(e) => this.props.onMoveBookTo(e, this.props.data)}>
                             <option value="none" disabled>Move to...</option>
                             <option value="currentlyReading">Currently Reading</option>
                             <option value="wantToRead">Want to Read</option>
