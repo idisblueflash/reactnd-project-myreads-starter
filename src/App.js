@@ -85,16 +85,24 @@ class BooksApp extends React.Component {
 
     handle_move_book_to = (e, selected_book) => {
         const new_shelf = e.target.value
-        
-        // TODO: update this.state.books when move a remote book from API
-        this.setState((state)=> ({
-            books: state.books.map((book) => {
-                if(book.id === selected_book.id) {
-                    book.shelf = new_shelf
-                }
-                return book
-            })
-        }))
+
+        let currentBooks
+        const { books } = this.state
+
+        if (!books.includes(selected_book)) {
+            currentBooks = books.concat(selected_book)
+        } else {
+            currentBooks = books
+        }
+
+        const booksWithShelf = currentBooks.map((book) => {
+            if(book.id === selected_book.id) {
+                book.shelf = new_shelf
+            }
+            return book
+        })
+
+        this.setState({ books: booksWithShelf })
 
         BooksAPI.update(selected_book, new_shelf)
     }
