@@ -72,6 +72,7 @@ class BooksApp extends React.Component {
      */
     showSearchPage: false,
     books:[],
+    query: ''
   }
 
   componentDidMount() {
@@ -95,7 +96,12 @@ class BooksApp extends React.Component {
     BooksAPI.update(selected_book, new_shelf)
   }
 
+  updateQuery = (query) => {
+    this.setState({ query: query.trim()})
+  }
+
   render() {
+    const { query } = this.state
     return (
       <div className="app">
         {this.state.showSearchPage ? (
@@ -103,7 +109,11 @@ class BooksApp extends React.Component {
             <div className="search-books-bar">
               <a className="close-search" onClick={() => this.setState({ showSearchPage: false })}>Close</a>
               <div className="search-books-input-wrapper">
-                <input type="text" placeholder="Search by title or author"/>
+                <input 
+                  type="text"
+                  value={query}
+                  onChange={(event) => this.updateQuery(event.target.value)}
+                  placeholder="Search by title or author"/>
               </div>
             </div>
             <div className="search-books-results">
