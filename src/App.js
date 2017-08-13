@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import * as BooksAPI from './BooksAPI'
-import escapeRegExp from 'escape-string-regexp'
 import './App.css'
 
 // TODO: assign shelf in option with shelf datas
@@ -87,6 +86,7 @@ class BooksApp extends React.Component {
     handle_move_book_to = (e, selected_book) => {
         const new_shelf = e.target.value
         
+        // TODO: update this.state.books when move a remote book from API
         this.setState((state)=> ({
             books: state.books.map((book) => {
                 if(book.id === selected_book.id) {
