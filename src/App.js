@@ -73,12 +73,14 @@ class BooksApp extends React.Component {
          */
         showSearchPage: false,
         books:[],
-        query: ''
+        query: '',
+        showingBooks: []
     }
 
     componentDidMount() {
         BooksAPI.getAll().then((books) => {
-            this.setState({ books})
+            this.setState({ books })
+            this.setState({ showingBooks: books})
         })
     }
 
@@ -99,20 +101,18 @@ class BooksApp extends React.Component {
 
     updateQuery = (query) => {
         this.setState({ query: query.trim()})
+
+        const { books } = this.state
+        if (query) {
+            BooksAPI.search(query, 20).then((showingBooks) => {
+                this.setState({ showingBooks })
+            })
+        } else {
+            this.setState({ showingBooks: books})
+        }
     }
 
     render() {
-
-        let showingBooks
-        
-        const { query, books } = this.state
-
-        if (query) {
-            const match = new RegExp(escapeRegExp(query), 'i')
-            showingBooks = books.filter((book) => match.test(book.title))
-        } else {
-            showingBooks = books
-        }
         
         return (
             <div className="app">
@@ -123,14 +123,14 @@ class BooksApp extends React.Component {
                             <div className="search-books-input-wrapper">
                                 <input 
                                     type="text"
-                                    value={query}
+                                    value={this.state.query}
                                     onChange={(event) => this.updateQuery(event.target.value)}
                                     placeholder="Search by title or author"/>
                             </div>
                         </div>
                         <div className="search-books-results">
                             <ol className="books-grid">
-                                {showingBooks.map(book => (
+                                {this.state.showingBooks.map(book => (
                                     <li key={book.id}>
                                         <Book data={book} onMoveBookTo={this.handle_move_book_to}/>
                                     </li>
