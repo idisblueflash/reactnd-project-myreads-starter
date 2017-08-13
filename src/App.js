@@ -1,6 +1,7 @@
 import React from 'react'
 import * as BooksAPI from './BooksAPI'
-import { ListBooks, Book}  from './ListBooks'
+import { ListBooks }  from './ListBooks'
+import SearchBooks from './SearchBooks'
 import './App.css'
 
 
@@ -68,27 +69,11 @@ class BooksApp extends React.Component {
         return (
             <div className="app">
                 {this.state.showSearchPage ? (
-                    <div className="search-books">
-                        <div className="search-books-bar">
-                            <a className="close-search" onClick={() => this.setState({ showSearchPage: false })}>Close</a>
-                            <div className="search-books-input-wrapper">
-                                <input 
-                                    type="text"
-                                    value={this.state.query}
-                                    onChange={(event) => this.updateQuery(event.target.value)}
-                                    placeholder="Search by title or author"/>
-                            </div>
-                        </div>
-                        <div className="search-books-results">
-                            <ol className="books-grid">
-                                {this.state.showingBooks.map(book => (
-                                    <li key={book.id}>
-                                        <Book data={book} onMoveBookTo={this.handle_move_book_to}/>
-                                    </li>
-                                    ))}
-                            </ol>
-                        </div>
-                    </div>
+                    <SearchBooks
+                        query={this.state.query}
+                        onUpdateQuery={this.updateQuery}
+                        showingBooks={this.state.showingBooks}
+                        onMoveBookTo={this.handle_move_book_to} />
                 ) : (
                    <ListBooks 
                         books={this.state.books} 
