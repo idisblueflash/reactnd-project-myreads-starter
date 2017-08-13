@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
 
 // TODO: assign shelf in option with shelf datas
 class Book extends React.Component{
@@ -84,7 +85,8 @@ class ListBooks extends React.Component {
                     </div>
                 </div>
                 <div className="open-search">
-                    <a onClick={() => this.setState({ showSearchPage: true })}>Add a book</a>
+                <Link
+                    to="/search" >Add a book</Link>
                 </div>
             </div>
         )
