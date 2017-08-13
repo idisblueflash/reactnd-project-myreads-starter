@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import * as BooksAPI from './BooksAPI'
+import escapeRegExp from 'escape-string-regexp'
 import './App.css'
 
 // TODO: assign shelf in option with shelf datas
@@ -101,10 +102,16 @@ class BooksApp extends React.Component {
     }
 
     render() {
-        const { query } = this.state
+
+        let showingBooks
+        
+        const { query, books } = this.state
 
         if (query) {
-            
+            const match = new RegExp(escapeRegExp(query), 'i')
+            showingBooks = books.filter((book) => match.test(book.title))
+        } else {
+            showingBooks = books
         }
         
         return (
@@ -123,7 +130,7 @@ class BooksApp extends React.Component {
                         </div>
                         <div className="search-books-results">
                             <ol className="books-grid">
-                                {this.state.books.map(book => (
+                                {showingBooks.map(book => (
                                     <li key={book.id}>
                                         <Book data={book} onMoveBookTo={this.handle_move_book_to}/>
                                     </li>
