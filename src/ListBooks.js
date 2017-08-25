@@ -3,6 +3,13 @@ import { Link } from 'react-router-dom'
 
 import BookShelf from './BookShelf'
 
+
+const shelves = {
+    currentlyReading: 'Currently Reading',
+    read: 'Read',
+    wantToRead: 'Want to Read'
+};
+
 const ListBooks = ({ books, onMoveBookTo }) => (
     <div className="list-books">
         <div className="list-books-title">
@@ -10,18 +17,14 @@ const ListBooks = ({ books, onMoveBookTo }) => (
         </div>
         <div className="list-books-content">
             <div>
-                <BookShelf title="Currently Reading"
-                    shelf='currentlyReading' 
-                    books={books}
-                    onMoveBookTo={onMoveBookTo} />
-                <BookShelf title="Want to Read"
-                    shelf='wantToRead'
-                    books={books}
-                    onMoveBookTo={onMoveBookTo} />
-                <BookShelf title="Read"
-                    shelf='read'
-                    books={books}
-                    onMoveBookTo={onMoveBookTo} />
+                {Object.keys(shelves).map(shelfKey =>
+                    <BookShelf title={shelves[shelfKey]}
+                        shelf={shelfKey}
+                        books={books}
+                        onMoveBookTo={onMoveBookTo}
+                        key={shelfKey}
+                    />
+                )}
             </div>
         </div>
         <div className="open-search">
