@@ -1,5 +1,5 @@
 import React from 'react'
-import { Book }  from './ListBooks'
+import Book from './Book'
 import { Link } from 'react-router-dom'
 
 class SearchBooks extends React.Component {
