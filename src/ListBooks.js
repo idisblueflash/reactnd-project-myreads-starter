@@ -2,6 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 
+import BookShelf from './BookShelf'
+
 class Book extends React.Component{
     render() {
         return (
@@ -34,32 +36,6 @@ Book.propTypes = {
     onMoveBookTo: PropTypes.func.isRequired
 }
 
-class Bookshelf extends React.Component{ 
-    render() {
-        const books = this.props.books.filter(book => book.shelf === this.props.shelf)
-
-        return (
-            <div className="bookshelf">
-                <h2 className="bookshelf-title">{this.props.title}</h2>
-                <div className="bookshelf-books">
-                    <ol className="books-grid">
-                        {books.map((book) => (
-                            <li key={book.id}>
-                                <Book data={book} onMoveBookTo={this.props.onMoveBookTo}/>
-                            </li>
-                        ))}
-                    </ol>
-                </div>
-            </div>
-        )
-    }
-}
-
-Bookshelf.propTypes = {
-    onMoveBookTo: PropTypes.func.isRequired,
-    shelf: PropTypes.string.isRequired
-}
-
 class ListBooks extends React.Component {
     render() {
         return (
@@ -69,15 +45,15 @@ class ListBooks extends React.Component {
                 </div>
                 <div className="list-books-content">
                     <div>
-                        <Bookshelf title="Currently Reading" 
+                        <BookShelf title="Currently Reading"
                             shelf='currentlyReading' 
                             books={this.props.books}
                             onMoveBookTo={this.props.onMoveBookTo} />
-                        <Bookshelf title="Want to Read"
+                        <BookShelf title="Want to Read"
                             shelf='wantToRead'
                             books={this.props.books}
                             onMoveBookTo={this.props.onMoveBookTo} />
-                        <Bookshelf title="Read"
+                        <BookShelf title="Read"
                             shelf='read'
                             books={this.props.books}
                             onMoveBookTo={this.props.onMoveBookTo} />
