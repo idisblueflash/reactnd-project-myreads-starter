@@ -68,6 +68,10 @@ class BooksApp extends React.Component {
         }
     }
 
+    clearSearchResults = () => {
+        this.setState({ query: '', showingBooks: [] })
+    }
+
     render() {
         return (
             <div className="app">
@@ -80,6 +84,7 @@ class BooksApp extends React.Component {
                     <SearchBooks
                         query={this.state.query}
                         onUpdateQuery={this.updateQuery}
+                        onClearSearchResults={this.clearSearchResults}
                         showingBooks={this.state.showingBooks}
                         onMoveBookTo={this.handle_move_book_to} />
                 )} />

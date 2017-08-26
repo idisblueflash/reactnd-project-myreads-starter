@@ -3,6 +3,10 @@ import Book from './Book'
 import { Link } from 'react-router-dom'
 
 class SearchBooks extends React.Component {
+    componentWillUnmount() {
+        this.props.onClearSearchResults();
+    }
+
 	render() {
 		return(
 			<div className="search-books">
