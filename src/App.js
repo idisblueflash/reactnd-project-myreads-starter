@@ -51,7 +51,17 @@ class BooksApp extends React.Component {
         const { books } = this.state
         if (query) {
             BooksAPI.search(query, 20).then((showingBooks) => {
-                this.setState({ showingBooks })
+                // Update search result book's shelf if it exist in home books
+                const homeBooks = this.state.books
+                const updatedBooks = showingBooks.map(showingBook => {
+                    homeBooks.forEach( homeBook => {
+                        if (homeBook.id === showingBook.id ) {
+                            showingBook.shelf = homeBook.shelf
+                        }
+                    })
+                    return showingBook
+                })
+                this.setState({ showingBooks: updatedBooks })
             })
         } else {
             this.setState({ showingBooks: books})
