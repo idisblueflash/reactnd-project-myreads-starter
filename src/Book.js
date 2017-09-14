@@ -13,8 +13,8 @@ class Book extends React.Component{
                             backgroundImage: 'url(' + this.props.data.imageLinks.thumbnail + ')' 
                         }}></div>
                     <div className="book-shelf-changer">
-                        <select value={this.props.data.shelf} onChange={(e) => this.props.onMoveBookTo(e, this.props.data)}>
-                            <option value="none" disabled>Move to...</option>
+                        <select value={this.props.data.shelf || "none"} onChange={(e) => this.props.onMoveBookTo(e, this.props.data)}>
+                            <option value="moveto" disabled>Move to...</option>
                             <option value="currentlyReading">Currently Reading</option>
                             <option value="wantToRead">Want to Read</option>
                             <option value="read">Read</option>
