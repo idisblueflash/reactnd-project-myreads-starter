@@ -172,3 +172,7 @@ body, .app {
   text-align: center;
   font-size: 0.8em;
 }
+
+.book-default-thumbnail {
+  background-image: url('./icons/default_thumbnail.jpg');
+}
