@@ -1,8 +1,9 @@
 import React from 'react'
 import * as BooksAPI from './BooksAPI'
-import { Route } from 'react-router-dom'
+import { Route, Switch } from 'react-router-dom'
 import ListBooks from './ListBooks'
 import SearchBooks from './SearchBooks'
+import ErrorPage from './ErrorPage'
 import './App.css'
 
 
@@ -63,7 +64,7 @@ class BooksApp extends React.Component {
                         return showingBook
                     })
                 }
-                
+
                 this.setState({ showingBooks: updatedBooks })
             })
         } else {
@@ -78,19 +79,23 @@ class BooksApp extends React.Component {
     render() {
         return (
             <div className="app">
-                <Route exact path="/" render={() => (
-                   <ListBooks 
-                        books={this.state.books} 
-                        onMoveBookTo={this.handle_move_book_to} />
-                )} />
-                <Route path="/search" render={() => (
-                    <SearchBooks
-                        query={this.state.query}
-                        onUpdateQuery={this.updateQuery}
-                        onClearSearchResults={this.clearSearchResults}
-                        showingBooks={this.state.showingBooks}
-                        onMoveBookTo={this.handle_move_book_to} />
-                )} />
+                <Switch>
+                    <Route exact path="/" render={() => (
+                       <ListBooks 
+                            books={this.state.books} 
+                            onMoveBookTo={this.handle_move_book_to} />
+                    )} />
+                    <Route path="/search" render={() => (
+                        <SearchBooks
+                            query={this.state.query}
+                            onUpdateQuery={this.updateQuery}
+                            onClearSearchResults={this.clearSearchResults}
+                            showingBooks={this.state.showingBooks}
+                            onMoveBookTo={this.handle_move_book_to} />
+                    )} />
+                    <Route component={ErrorPage}/>
+                    />
+                </Switch>
             </div>
         )
     }
